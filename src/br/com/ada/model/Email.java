@@ -1,5 +1,7 @@
 package br.com.ada.model;
 
+import br.com.ada.enumerations.CountryDomain;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +10,8 @@ public class Email {
 
     private String sender;
     private List<String> recipients = new ArrayList<>();
-    private List<String> cc = new ArrayList<>();
-    private List<String> bcc = new ArrayList<>();
+    private final List<String> cc = new ArrayList<>();
+    private final List<String> bcc = new ArrayList<>();
     private LocalDateTime sendDate;
     private LocalDateTime receiptDate;
     private String subject;
@@ -84,5 +86,53 @@ public class Email {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Boolean hasAtLeastAWordOnSubject(final List<String> words) {
+        Boolean result = Boolean.FALSE;
+        if (this.subject != null && !this.subject.isBlank()) {
+            for (String word: words) {
+                if (this.subject.contains(word)) {
+                    result = Boolean.TRUE;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public Boolean hasAtLeastAWordOnSubjectIgnoringCase(final List<String> words) {
+        Boolean result = Boolean.FALSE;
+        if (this.subject != null && !this.subject.isBlank()) {
+            for (String word: words) {
+                final String lowerCaseSubject = this.subject.toLowerCase();
+                if (lowerCaseSubject.contains(word.toLowerCase())) {
+                    result = Boolean.TRUE;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public Boolean isFromCountry(final CountryDomain countryDomain) {
+        if (this.sender.endsWith(countryDomain.getDomain())) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public String toString() {
+        return "Email{" +
+                "sender='" + sender + '\'' +
+                ", recipients=" + recipients +
+                //", cc=" + cc +
+                //", bcc=" + bcc +
+                ", sendDate=" + sendDate +
+                ", receiptDate=" + receiptDate +
+                ", subject='" + subject + '\'' +
+                ", body='" + body + '\'' +
+                '}';
     }
 }

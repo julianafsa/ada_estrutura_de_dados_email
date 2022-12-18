@@ -32,7 +32,6 @@ public class Aplicacao {
         System.out.println("Quantidade de e-mails recebidos do " + sender1 + ": " + inbox.getTotalEmailReceveidFromSender(sender1));
         System.out.println("Quantidade de e-mails recebidos do " + sender2 + ": " + inbox.getTotalEmailReceveidFromSender(sender2));
         System.out.println("Quantidade de e-mails recebidos do " + sender3 + ": " + inbox.getTotalEmailReceveidFromSender(sender3));
-        System.out.println("Quantidade de e-mails recebidos do " + null + ": " + inbox.getTotalEmailReceveidFromSender(null));
         System.out.println("Quantidade de e-mails recebidos do " + sender5 + ": " + inbox.getTotalEmailReceveidFromSender(sender5));
 
         // TESTING ITEM d)
@@ -47,7 +46,7 @@ public class Aplicacao {
         // TESTING ITEM e)
         System.out.println("\n====== Item e) ======");
         Set<String> emailAddressesAsSet = inbox.getEmailAddressesSetWithWordsOnSubject(words);
-        System.out.print("Endereços de e-mail com e-mails contendo pelo menos uma das seguintes palavras: ");
+        System.out.print("Endereços de e-mail com e-mails contendo pelo menos uma das seguintes palavras (set): ");
         words.forEach(w-> System.out.print(w + " "));
         System.out.println();
         emailAddressesAsSet.forEach(System.out::println);
@@ -61,37 +60,45 @@ public class Aplicacao {
 
         // TESTING ITEM g)
         System.out.println("\n====== Item g) ======");
-        System.out.println("Obtendo endereços de e-mail que enviaram e-mail hoje...");
+        System.out.println("Recriando inbox...");
         inbox = Aplicacao.createInbox(); // Reset inbox
+        System.out.println("Obtendo endereços de e-mail que enviaram e-mail hoje...");
         List<String> emailAddressesSentEmailsToday = inbox.getEmailAddressesSentEmailsToday();
         emailAddressesSentEmailsToday.forEach(System.out::println);
 
         // TESTING ITEM h)
         System.out.println("\n====== Item h) ======");
+        System.out.println("Recriando inbox...");
+        inbox = Aplicacao.createInbox(); // Reset inbox
         final String senderH = "promo@email.com.br";
         final List<String> wordsH = List.of("desconto");
         System.out.print("Removendo e-mails do " + senderH + " com as seguintes palavras: ");
         wordsH.forEach(System.out::print);
         System.out.println("");
-        inbox = Aplicacao.createInbox(); // Reset inbox
         inbox.removeEmailsFromSenderWithWordsOnSubject(senderH, wordsH);
         inbox.print();
 
         // TESTING ITEM i)
         System.out.println("\n====== Item i) ======");
-        final String senderI = "promo@email.com.br";
-        final LocalDateTime dateI = LocalDateTime.parse("2022-12-14 00:00", formatter);
-        System.out.print("Removendo e-mails do " + senderI + " anteriores a data " + dateI.toString() + "\n");
+        System.out.println("Recriando inbox...");
         inbox = Aplicacao.createInbox(); // Reset inbox
+        final String senderI = "promo@email.com.br";
+        final LocalDateTime dateI = LocalDateTime.parse("2022-12-13 00:00", formatter);
+        System.out.print("Removendo e-mails do " + senderI + " anteriores a data " + dateI.toString() + "\n");
         inbox.removeEmailsReceivedFromSenderBeforeDate("promo@email.com.br", dateI);
         inbox.print();
 
         // TESTING ITEM j)
         System.out.println("\n====== Item j) ======");
+        System.out.println("Recriando inbox...");
+        inbox = Aplicacao.createInbox(); // Reset inbox
         final CountryDomain countryDomain = CountryDomain.PORTUGAL;
         System.out.println("Listando e-mails oriundos de " + countryDomain.getName() + ":");
-        inbox = Aplicacao.createInbox(); // Reset inbox
         List<String> emails = inbox.getEmailsFromCountry(countryDomain);
+        emails.forEach(System.out::println);
+
+        System.out.println("\nListando e-mails oriundos do Brasil:");
+        emails = inbox.getEmailsFromCountry(".br");
         emails.forEach(System.out::println);
     }
 

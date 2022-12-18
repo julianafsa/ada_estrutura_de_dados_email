@@ -74,7 +74,7 @@ public class MailMap {
      */
     public List<String> getEmailAddressesListWithWordsOnSubject(final List<String> words) {
         final List<String> emailAddresses = new ArrayList<>();
-        return (List<String>) getEmailAddressesSetWithWordsOnSubject(words, emailAddresses);
+        return (List<String>) getEmailAddressesCollectionWithWordsOnSubject(words, emailAddresses);
     }
 
     // 5. O mesmo que a questão anterior, mas criando um conjunto contendo os e-mails;
@@ -87,10 +87,10 @@ public class MailMap {
      */
     public Set<String> getEmailAddressesSetWithWordsOnSubject(final List<String> words) {
         final Set<String> emailAddresses = new HashSet<>();
-        return (Set<String>) getEmailAddressesSetWithWordsOnSubject(words, emailAddresses);
+        return (Set<String>) getEmailAddressesCollectionWithWordsOnSubject(words, emailAddresses);
     }
 
-    private Collection<String> getEmailAddressesSetWithWordsOnSubject(final List<String> words,
+    private Collection<String> getEmailAddressesCollectionWithWordsOnSubject(final List<String> words,
                                                                       final Collection<String> emailAddresses) {
         for (Map.Entry<String, List<Email>> entry: emailMap.entrySet()) {
             final String sender = entry.getKey();
@@ -196,6 +196,20 @@ public class MailMap {
         }
         for (String sender: emailMap.keySet()) {
             if (sender.endsWith(countryDomain.getDomain())) {
+                emailsFromCountry.add(sender);
+            }
+        }
+        return emailsFromCountry;
+    }
+
+    public List<String> getEmailsFromCountry(final String suffix) {
+        final List<String> emailsFromCountry = new ArrayList<>();
+        if (suffix == null) {
+            System.out.println("suffix parameter cannot be null.");
+            return emailsFromCountry;
+        }
+        for (String sender: emailMap.keySet()) {
+            if (sender.endsWith(suffix)) {
                 emailsFromCountry.add(sender);
             }
         }

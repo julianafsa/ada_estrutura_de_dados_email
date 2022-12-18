@@ -97,6 +97,7 @@ public class Aplicacao {
         List<String> emails = inbox.getEmailsFromCountry(countryDomain);
         emails.forEach(System.out::println);
 
+        // Testando com a sobrecarga do método
         System.out.println("\nListando e-mails oriundos do Brasil:");
         emails = inbox.getEmailsFromCountry(".br");
         emails.forEach(System.out::println);
